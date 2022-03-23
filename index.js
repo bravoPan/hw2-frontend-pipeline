@@ -37,18 +37,18 @@ function upload(input) {
     // else {
     //     encodedStr = encoded.substring(32, last_index_quote);
     // }
-    var apigClient = apigClientFactory.newClient({ apiKey: "apikey" });
+    var apigClient = apigClientFactory.newClient({ apiKey: "84PGcnVgWL4Bu8KbQGtuS1hAmDdixphY8psrfZtQ" });
     var params = {
         "file": filename,
         "bucket": "photobucket-b2",
         "x-amz-meta-customLabels": input,
+        "Content-Type": "image/jpeg;base64",
+        "Accept": '*/*'
     };
 
     var additionalParams = {
         headers: {
-        "Content-Type": "image/jpeg",
-        "ContentEncoding": 'base64',
-        "Accept": '*/*',
+        // "ContentEncoding": 'base64',
         "Access-Control-Allow-Origin": '*',
         "Access-Control-Allow-Credentials": true,
         "Access-Control-Allow-Headers": 'ContentEncoding,Accept,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-amz-meta-customlabels,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,Access-Control-Allow-Headers',
@@ -74,10 +74,11 @@ function voiceSearch() {
     }
     recognition.start();
     recognition.onresult = (event) => {
+        $("#voiceinstr").empty();
         const speechToText = event.results[0][0].transcript;
         console.log(speechToText)
 
-        var apigClient = apigClientFactory.newClient({ apiKey: "apikey" });
+        var apigClient = apigClientFactory.newClient({ apiKey: "84PGcnVgWL4Bu8KbQGtuS1hAmDdixphY8psrfZtQ" });
         var params = {
         "q": speechToText
         };
@@ -97,8 +98,8 @@ function voiceSearch() {
     apigClient.searchGet(params, body, additionalParams)
       .then(function (result) {
         console.log('success OK');
-        showImages(result.data.results);
-        console.log(result.data.results);
+        showImages(result["data"]["body"]["results"]);
+        console.log(result["data"]["body"]["results"]);
       }).catch(function (result) {
         console.log(result);
         console.log(speechToText);
@@ -109,7 +110,7 @@ function voiceSearch() {
 
 function search() {
   var searchTerm = $("#search").val();
-  var apigClient = apigClientFactory.newClient({ apiKey: "apikey" });
+  var apigClient = apigClientFactory.newClient({ apiKey: "84PGcnVgWL4Bu8KbQGtuS1hAmDdixphY8psrfZtQ" });
   var params = {
     "q": searchTerm
   };
