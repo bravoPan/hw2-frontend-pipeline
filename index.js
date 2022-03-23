@@ -70,13 +70,14 @@ function upload(input) {
 
 function voiceSearch() {
     recognition.onstart = function(){
-        $("#voiceinstr").text("Voice search is on. Speak to begin..")
+        $("#search").val("Voice search is on. Speak to begin..")
     }
     recognition.start();
     recognition.onresult = (event) => {
         $("#voiceinstr").empty();
         const speechToText = event.results[0][0].transcript;
-        console.log(speechToText)
+        $("#search").val(speechToText);
+        // console.log(speechToText)
 
         var apigClient = apigClientFactory.newClient({ apiKey: "84PGcnVgWL4Bu8KbQGtuS1hAmDdixphY8psrfZtQ" });
         var params = {
@@ -155,7 +156,7 @@ function showImages(res) {
         }
     }
     console.log(res)
-    if (res.length == 0) {
+    if (res == undefined || res.length == 0) {
         var newContent = $("<p>No matching Results</p>");
         newDiv.append(newContent);
         // var currentDiv = document.getElementById("div1");

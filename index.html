@@ -23,8 +23,11 @@
   <script type="text/javascript" src="apigClient.js"></script>
 </head>
 <body>
+
   <div class="container">
-    <div id = "dropz"  class="row">
+      <h1 style="margin-bottom:50px;">COMS6998-HW2</h1>
+      <h2 >Upload the Photo</h2>
+    <div id = "dropz"  class="row" style="margin-bottom:50px;">
         <div class="col-md-8">
           <p><input id="img" type="file" class = "fa fa-cloud-upload" accept="image/*"></p>
           <div class="row">
@@ -32,11 +35,12 @@
           </div>
         </div>
         <div class="col-md-2">
-          <button class="mybtn">Upload</button>
+          <button class="mybtn btn btn-primary">Upload</button>
         </div>
     </div>
+    <h2>Search the Photo</h2>
     <div class="row">
-          <input id='search' class="fa fa-cloud-upload" type='text' placeholder = "Search"></input>
+          <input id='search' class="fa fa-cloud-upload col-sm-8" type='text' placeholder = "Search"></input>
           <button id="voice" type="button" class="btn btn-primary">
             <i class="fa fa-microphone" style="font-size:20px"></i>
           </button>
