@@ -1,7 +1,10 @@
-var name = null;
+var filename = null;
 var encoded = null;
 var type = null;
 var fileExt = null;
+
+var readerStr = null;
+
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
 const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
@@ -10,16 +13,15 @@ function previewFile(input) {
     var reader = new FileReader();
     reader.readAsDataURL(input.files[0]);
     type = input.files[0].type;
-    name = input.files[0].name;
-    // fileExt = name.split(".").pop();
-    // var onlyname = name.replace(/\.[^/.]+$/, "");
-    // var finalName = onlyname + "_" + Date.now() + "." + fileExt;
-    // name = finalName;
+    filename = input.files[0].name;
+    console.log(type)
+
 
     reader.onload = function (e) {
-        // var src = e.target.result;
-        // var newImage = document.createElement("img");
-        // newImage.src = src;
+        console.log(reader.result.toString());
+
+        readerStr = reader.result.toString();
+
         encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
         if ((encoded.length % 4) > 0) {
           encoded += '='.repeat(4 - (encoded.length % 4));
@@ -37,19 +39,20 @@ function upload(input) {
     // }
     var apigClient = apigClientFactory.newClient({ apiKey: "apikey" });
     var params = {
-        "file": name,
+        "file": filename,
         "bucket": "photobucket-b2",
-        "x-amz-meta-customLabels": input
+        "x-amz-meta-customLabels": input,
     };
 
     var additionalParams = {
         headers: {
-        "Content-Type": type,
+        "Content-Type": "image/jpeg",
+        "ContentEncoding": 'base64',
         "Accept": '*/*',
         "Access-Control-Allow-Origin": '*',
         "Access-Control-Allow-Credentials": true,
-        "Access-Control-Allow-Headers": 'Accept,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-amz-meta-customlabels,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,Access-Control-Allow-Headers',
-        "Access-Control-Allow-Methods": 'PUT,OPTIONS'
+        "Access-Control-Allow-Headers": 'ContentEncoding,Accept,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,x-amz-meta-customlabels,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Credentials,Access-Control-Allow-Headers',
+        "Access-Control-Allow-Methods": 'OPTIONS,PUT'
         }
     };
 
